@@ -1,0 +1,38 @@
+---
+title: "Demonstrating dtkbook Markup"
+author: "Daniel Kaplan"
+date: '`r Sys.Date()`'
+output:
+  tufte::tufte_handout:
+     keep_tex: true
+link-citations: yes
+params:
+  headline: "Headless woman in topless bar"
+---
+
+```{r setup, include=FALSE}
+library(tint)
+library(dtkbook)
+# invalidate cache when the package version changes
+knitr::opts_chunk$set(tidy = FALSE, cache.extra = packageVersion('tint'))
+options(htmltools.dir.version = FALSE)
+```
+
+# Book markup
+
+I particularly like to create Tufte-style books. The `tufte` and `tint` R packages are vergy helpful here, but they don't do everything that's needed.
+
+* Marginal notes. In `tint` and `tufte`, use the `margin_note()` function to create a marginal note. Put it in an inline chunk, like this: `margin_note("This goes in the margin.")` `r margin_note("This goes in the margin.")`
+    
+    Unfortunately, it's not possible via this mechanism to create a marginal note that has R content: you can't put an inline chunk inside an inline chunk.
+    
+    The `dtkbook::margin_content()` function works just like `margin_note`, but allows you to put in an inline chunk in the character-string argument. It will be escaped with `@` rather than the back-quote. For instance, here is a simple calculation in a marginal note.`r margin_content("Three plus seven is @r 3 + 7@")`
+    
+How is this line formatted?
+
+
+Another example involves a table like that shown in the margin:  `r margin_content("Let's say @r knitr::kable(mtcars[1:5, 1:2], format = 'latex', row.names = FALSE)@")`
+
+## Try out the margin_table() function
+
+Can we put this in the margin?`r margin_table(mtcars[, 1:2], move = -3)`

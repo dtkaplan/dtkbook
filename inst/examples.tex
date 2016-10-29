@@ -1,0 +1,146 @@
+\documentclass[]{tufte-handout}
+
+% ams
+\usepackage{amssymb,amsmath}
+
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \makeatletter
+  \@ifpackageloaded{fontspec}{}{\usepackage{fontspec}}
+  \makeatother
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \makeatletter
+  \@ifpackageloaded{soul}{
+     \renewcommand\allcapsspacing[1]{{\addfontfeature{LetterSpace=15}#1}}
+     \renewcommand\smallcapsspacing[1]{{\addfontfeature{LetterSpace=10}#1}}
+   }{}
+  \makeatother
+\fi
+
+% graphix
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+
+% booktabs
+\usepackage{booktabs}
+
+% url
+\usepackage{url}
+
+% hyperref
+\usepackage{hyperref}
+
+% units.
+\usepackage{units}
+
+
+\setcounter{secnumdepth}{-1}
+
+% citations
+
+% pandoc syntax highlighting
+
+% longtable
+
+% multiplecol
+\usepackage{multicol}
+
+% strikeout
+\usepackage[normalem]{ulem}
+
+% morefloats
+\usepackage{morefloats}
+
+
+% tightlist macro required by pandoc >= 1.14
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% title / author / date
+\title{Demonstrating dtkbook Markup}
+\author{Daniel Kaplan}
+\date{2016-10-29}
+
+
+\begin{document}
+
+\maketitle
+
+
+
+
+\section{Book markup}\label{book-markup}
+
+I particularly like to create Tufte-style books. The \texttt{tufte} and
+\texttt{tint} R packages are vergy helpful here, but they don't do
+everything that's needed.
+
+\begin{itemize}
+\item
+  Marginal notes. In \texttt{tint} and \texttt{tufte}, use the
+  \texttt{margin\_note()} function to create a marginal note. Put it in
+  an inline chunk, like this:
+  \texttt{margin\_note("This\ goes\ in\ the\ margin.")}
+  \marginnote{This goes in the margin.}
+
+  Unfortunately, it's not possible via this mechanism to create a
+  marginal note that has R content: you can't put an inline chunk inside
+  an inline chunk.
+
+  The \texttt{dtkbook::margin\_content()} function works just like
+  \texttt{margin\_note}, but allows you to put in an inline chunk in the
+  character-string argument. It will be escaped with \texttt{@} rather
+  than the back-quote. For instance, here is a simple calculation in a
+  marginal note.\marginnote[0cm]{Three plus seven is 10}
+\end{itemize}
+
+How is this line formatted?
+
+Another example involves a table like that shown in the margin:
+\marginnote[0cm]{Let's say 
+\begin{tabular}{r|r}
+\hline
+mpg & cyl\\
+\hline
+21.0 & 6\\
+\hline
+21.0 & 6\\
+\hline
+22.8 & 4\\
+\hline
+21.4 & 6\\
+\hline
+18.7 & 8\\
+\hline
+\end{tabular}
+
+}
+
+\subsection{Try out the margin\_table()
+function}\label{try-out-the-margin_table-function}
+
+Can we put this in the margin?\marginnote[-3cm]{hello 
+ 
+\begin{tabular}{l|r|r}
+\hline
+  & mpg & cyl\\
+\hline
+Mazda RX4 & 21.0 & 6\\
+\hline
+Mazda RX4 Wag & 21.0 & 6\\
+\hline
+Datsun 710 & 22.8 & 4\\
+\hline
+Hornet 4 Drive & 21.4 & 6\\
+\hline
+Hornet Sportabout & 18.7 & 8\\
+\hline
+\end{tabular} after}
+
+
+
+\end{document}
