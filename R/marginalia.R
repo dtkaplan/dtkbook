@@ -19,13 +19,22 @@ margin_content <- function(text, move = 0) {
 }
 
 #' @export
-margin_table <- function(data, 
+margin_table <- function(data, caption = "",
                          show_rows = 5, declare_rows = nrow(data),
-                         before = "hello", after = "after", move = 0) {
-  tformat <- ifelse(knitr:::is_latex_output(), "latex", "markdown")
-  table_text <- knitr::kable(data[1:show_rows,], format = tformat)
-  margin_content(paste(before, "\n", table_text, after, collapse = "\n"),
-                       move = move)
+                         header = "", move = 0) {
+  res <- if (knitr:::is_latex_output()) {
+    table_text <- knitr::kable(data[1:show_rows,], format = "latex")
+    paste(
+      ifelse(nchar(header) > 0, margin_content(header, move = move + 1), "" ),
+      margin_content(table_text, move = move), 
+      ifelse(nchar(caption) > 0, margin_content(caption, move = move), ""),
+      collapse = " ")
+  } else {
+    # Simple text for HTML output
+    knitr::kable(data[1:show_rows, ], format = "html", caption = caption)
+  }
+  
+  res
 }
 
 

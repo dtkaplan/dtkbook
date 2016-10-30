@@ -3,7 +3,7 @@ title: "Demonstrating dtkbook Markup"
 author: "Daniel Kaplan"
 date: '`r Sys.Date()`'
 output:
-  tufte::tufte_handout:
+  tint::tintPdf:
      keep_tex: true
 link-citations: yes
 params:
@@ -35,4 +35,12 @@ Another example involves a table like that shown in the margin:  `r margin_conte
 
 ## Try out the margin_table() function
 
-Can we put this in the margin?`r margin_table(mtcars[, 1:2], move = -3)`
+
+Add in something to margin_content and margin_table that will check if there really is a `margin_table()`. If not, don't use it.
+
+`r margin_content("@r exists('margin_table')@")`
+
+
+Can we put this in the margin? Yes in PDF, no in HTML.
+
+`r margin_table(mtcars[, 1:2], caption = "Caption for table!", header = 'mtcars', move = 0)`
